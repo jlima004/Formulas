@@ -80,6 +80,24 @@ Para parar o banco:
 docker compose down
 ```
 
+## Persistencia no MySQL
+
+O parser continua gerando JSON em `Output/` e agora tambem persiste os dados no MySQL (tabelas `formulas` e `formula_items`) durante o processamento em lote.
+
+Fluxo de execucao:
+
+1. Parse do PDF
+2. Escrita do JSON em `Output/`
+3. Persistencia no MySQL (transacional por arquivo)
+
+Antes de rodar `npm start`, garanta que o MySQL esta ativo:
+
+```bash
+docker compose up -d
+```
+
+As tabelas sao criadas automaticamente na primeira execucao do parser (`CREATE TABLE IF NOT EXISTS`).
+
 ## Saída gerada
 
 Os arquivos são gravados em `Output/`:
@@ -124,5 +142,5 @@ Exemplo de item no JSON:
 
 - Esta versão considera PDFs com texto selecionável.
 - OCR foi incluído como fallback automático quando a extração textual via pdfjs retorna conteúdo insuficiente.
-- A gravação no MySQL ainda não foi implementada.
+- A gravação no MySQL já está implementada para os próximos processamentos em lote.
 - O parser foi calibrado para os PDFs atuais desta pasta.
