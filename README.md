@@ -80,15 +80,15 @@ Para parar o banco:
 docker compose down
 ```
 
-## Persistencia no MySQL
+## Persistência no MySQL
 
-O parser continua gerando JSON em `Output/` e agora tambem persiste os dados no MySQL (tabelas `formulas` e `formula_items`) durante o processamento em lote.
+O parser continua gerando JSON em `Output/` e agora também persiste os dados no MySQL (tabelas `formulas` e `formula_items`) durante o processamento em lote.
 
-Fluxo de execucao:
+Fluxo de execução:
 
 1. Parse do PDF
 2. Escrita do JSON em `Output/`
-3. Persistencia no MySQL (transacional por arquivo)
+3. Persistência no MySQL (transacional por arquivo)
 
 Antes de rodar `npm start`, garanta que o MySQL esta ativo:
 
@@ -96,7 +96,7 @@ Antes de rodar `npm start`, garanta que o MySQL esta ativo:
 docker compose up -d
 ```
 
-As tabelas sao criadas automaticamente na primeira execucao do parser (`CREATE TABLE IF NOT EXISTS`).
+As tabelas sao criadas automaticamente na primeira execução do parser (`CREATE TABLE IF NOT EXISTS`).
 
 ## Saída gerada
 
