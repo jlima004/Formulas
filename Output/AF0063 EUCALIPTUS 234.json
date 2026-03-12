@@ -1,0 +1,137 @@
+{
+  "metadata": {
+    "fileName": "AF0063 EUCALIPTUS 234.pdf",
+    "filePath": "/home/jlima/Projetos/Formulas/AF0063 EUCALIPTUS 234.pdf",
+    "processedAt": "2026-03-12T01:04:05.213Z",
+    "pageCount": 1
+  },
+  "data": {
+    "formula": "AF0063 EUCALIPTUS 234",
+    "partes": "1000",
+    "partesValue": 1000,
+    "totalItems": "8",
+    "totalItemsValue": 8,
+    "codigo": "Codigo",
+    "detall": "Detalle",
+    "costo": "Costo",
+    "hojaN": "1/0",
+    "observacion": null,
+    "items": [
+      {
+        "itemNumber": 1,
+        "codigo": "MP00049",
+        "detall": "DPG",
+        "partes": "605,00",
+        "partesValue": 605,
+        "costo": "3,25",
+        "costoValue": 3.25
+      },
+      {
+        "itemNumber": 2,
+        "codigo": "MP00053",
+        "detall": "EUCALIPTUS",
+        "partes": "200,00",
+        "partesValue": 200,
+        "costo": "20,20",
+        "costoValue": 20.2
+      },
+      {
+        "itemNumber": 3,
+        "codigo": "MP00172",
+        "detall": "ROMERO",
+        "partes": "25,00",
+        "partesValue": 25,
+        "costo": "30,51",
+        "costoValue": 30.51
+      },
+      {
+        "itemNumber": 4,
+        "codigo": "MP00223",
+        "detall": "BORNEOL CRISTALES",
+        "partes": "5,00",
+        "partesValue": 5,
+        "costo": "36,03",
+        "costoValue": 36.03
+      },
+      {
+        "itemNumber": 5,
+        "codigo": "MP00397",
+        "detall": "LAVANDIN GROSSO",
+        "partes": "20,00",
+        "partesValue": 20,
+        "costo": "25,60",
+        "costoValue": 25.6
+      },
+      {
+        "itemNumber": 6,
+        "codigo": "MP00405",
+        "detall": "TERPINEOL",
+        "partes": "60,00",
+        "partesValue": 60,
+        "costo": "16,09",
+        "costoValue": 16.09
+      },
+      {
+        "itemNumber": 7,
+        "codigo": "MP00468",
+        "detall": "ALCANFOR",
+        "partes": "75,00",
+        "partesValue": 75,
+        "costo": "16,57",
+        "costoValue": 16.57
+      },
+      {
+        "itemNumber": 8,
+        "codigo": "MP00561",
+        "detall": "TERPENOS NARANJA",
+        "partes": "10,00",
+        "partesValue": 10,
+        "costo": "20,20",
+        "costoValue": 20.2
+      }
+    ]
+  },
+  "warnings": [],
+  "diagnostics": {
+    "matchedLabels": {
+      "formula": "Formula: AF0063 EUCALIPTUS 234 Total Items: 8",
+      "totalItems": "Formula: AF0063 EUCALIPTUS 234 Total Items: 8",
+      "partes": "Partes: 1000",
+      "hojaN": "Hoja Nº:1/0",
+      "observacion": "Observacion:",
+      "codigo": "Codigo Detalle Partes Costo",
+      "detall": "Codigo Detalle Partes Costo",
+      "costo": "Codigo Detalle Partes Costo"
+    },
+    "candidateLines": [
+      "Fecha: 19/02/2026",
+      "13:55:04",
+      "Hoja Nº:1/0",
+      "---------------------------------------------------------------------------------------------------",
+      "Formula: AF0063 EUCALIPTUS 234 Total Items: 8",
+      "Partes: 1000",
+      "Codigo Detalle Partes Costo",
+      "---------------------------------------------------------------------------------------------------",
+      "1 MP00049 DPG 605,00 3,25",
+      "2 MP00053 EUCALIPTUS 200,00 20,20",
+      "3 MP00172 ROMERO 25,00 30,51",
+      "4 MP00223 BORNEOL CRISTALES 5,00 36,03",
+      "5 MP00397 LAVANDIN GROSSO 20,00 25,60",
+      "6 MP00405 TERPINEOL 60,00 16,09",
+      "7 MP00468 ALCANFOR 75,00 16,57",
+      "8 MP00561 TERPENOS NARANJA 10,00 20,20",
+      "___________",
+      "1.000,00",
+      "Observacion:"
+    ],
+    "extractedLineCount": 19,
+    "parsedItems": 8
+  },
+  "extraction": {
+    "method": "pdfjs",
+    "fallbackTriggered": false,
+    "textLength": 627,
+    "lineCount": 19
+  },
+  "rawText": "Fecha: 19/02/2026\n13:55:04\nHoja Nº:1/0\n---------------------------------------------------------------------------------------------------\nFormula: AF0063 EUCALIPTUS 234 Total Items: 8\nPartes: 1000\nCodigo Detalle Partes Costo\n---------------------------------------------------------------------------------------------------\n1 MP00049 DPG 605,00 3,25\n2 MP00053 EUCALIPTUS 200,00 20,20\n3 MP00172 ROMERO 25,00 30,51\n4 MP00223 BORNEOL CRISTALES 5,00 36,03\n5 MP00397 LAVANDIN GROSSO 20,00 25,60\n6 MP00405 TERPINEOL 60,00 16,09\n7 MP00468 ALCANFOR 75,00 16,57\n8 MP00561 TERPENOS NARANJA 10,00 20,20\n___________\n1.000,00\nObservacion:"
+}
