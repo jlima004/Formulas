@@ -1,0 +1,14 @@
+# Environment variables
+.env
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Generated output
+Output/
+
+# PDF files in root directory
+*.pdf
