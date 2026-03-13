@@ -12,6 +12,8 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - formulas-net
     healthcheck:
       test:
         [
@@ -23,5 +25,41 @@ services:
       retries: 10
       start_period: 20s
 
+  formulas-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: formulas-app
+    restart: unless-stopped
+    init: true
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      MYSQL_HOST: ${MYSQL_HOST:-mysql}
+      MYSQL_PORT: ${MYSQL_PORT:-3306}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-formulas}
+      MYSQL_USER: ${MYSQL_USER:-formulas}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-formulas}
+      PARSER_INTERVAL_SECONDS: ${PARSER_INTERVAL_SECONDS:-300}
+    command:
+      - /bin/sh
+      - -lc
+      - |
+        echo "[formulas-app] Modo contínuo ativo. Intervalo: $${PARSER_INTERVAL_SECONDS}s"
+        while true; do
+          node dist/index.js || true
+          sleep "$${PARSER_INTERVAL_SECONDS}"
+        done
+    volumes:
+      - ./Output:/app/Output
+    networks:
+      - formulas-net
+
 volumes:
   mysql_data:
+
+networks:
+  formulas-net:
+    driver: bridge
