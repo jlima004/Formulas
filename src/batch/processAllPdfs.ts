@@ -1,10 +1,9 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { paths } from "../config/paths.js";
-import { parseFormulaPdf } from "../parser/parseFormulaPdf.js";
 import { closeDbPool, getDbPool } from "../io/dbConnection.js";
 import { ensureDatabaseSchema } from "../io/ensureDatabaseSchema.js";
-import { persistFormula } from "../io/persistFormula.js";
+import { FormulaProcessingService } from "../services/parsing/formulaProcessing.service.js";
 
 const EXCLUDED_PDF_FILE_NAMES = new Set(["pdf-escaneado.pdf"]);
 
@@ -15,6 +14,7 @@ export interface BatchSummary {
 
 export async function processAllPdfs(): Promise<BatchSummary> {
   const dbPool = getDbPool();
+  const formulaProcessingService = new FormulaProcessingService();
   await ensureDatabaseSchema(dbPool);
 
   const entries = await fs.readdir(paths.workspaceRoot, {
@@ -36,8 +36,7 @@ export async function processAllPdfs(): Promise<BatchSummary> {
   try {
     for (const filePath of pdfFiles) {
       try {
-        const result = await parseFormulaPdf(filePath);
-        await persistFormula(dbPool, result);
+        await formulaProcessingService.processFile(filePath, dbPool);
         succeeded.push(path.basename(filePath));
       } catch (error) {
         failed.push({

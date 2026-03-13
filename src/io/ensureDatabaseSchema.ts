@@ -60,4 +60,43 @@ export async function ensureDatabaseSchema(pool: Pool): Promise<void> {
       INDEX idx_formula_items_codigo (codigo)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
   `);
+
+  await pool.execute(`
+    CREATE TABLE IF NOT EXISTS drive_file_checkpoints (
+      file_id VARCHAR(255) PRIMARY KEY,
+      file_name VARCHAR(255) NOT NULL,
+      last_version_key VARCHAR(255) NOT NULL,
+      processed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      INDEX idx_drive_checkpoints_processed_at (processed_at)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `);
+
+  await pool.execute(`
+    CREATE TABLE IF NOT EXISTS drive_watch_channels (
+      channel_id VARCHAR(64) PRIMARY KEY,
+      resource_id VARCHAR(255) NOT NULL,
+      resource_uri VARCHAR(500),
+      channel_token VARCHAR(255),
+      webhook_address VARCHAR(500) NOT NULL,
+      page_token VARCHAR(255) NOT NULL,
+      expires_at DATETIME NULL,
+      status ENUM('active', 'stopped') NOT NULL DEFAULT 'active',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      INDEX idx_drive_watch_status (status),
+      INDEX idx_drive_watch_expires_at (expires_at)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `);
+
+  await pool.execute(`
+    CREATE TABLE IF NOT EXISTS drive_webhook_receipts (
+      id BIGINT AUTO_INCREMENT PRIMARY KEY,
+      channel_id VARCHAR(64) NOT NULL,
+      resource_id VARCHAR(255) NOT NULL,
+      message_number VARCHAR(64) NOT NULL,
+      received_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE KEY uq_drive_webhook_receipts_channel_message (channel_id, message_number),
+      INDEX idx_drive_webhook_receipts_resource (resource_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `);
 }
