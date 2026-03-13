@@ -22,17 +22,13 @@ export async function persistFormula(
         formula,
         partes,
         hoja,
-        total_items,
-        warnings_json,
-        diagnostics_json
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        total_items
+      ) VALUES (?, ?, ?, ?, ?)
       ON DUPLICATE KEY UPDATE
         formula = VALUES(formula),
         partes = VALUES(partes),
         hoja = VALUES(hoja),
-        total_items = VALUES(total_items),
-        warnings_json = VALUES(warnings_json),
-        diagnostics_json = VALUES(diagnostics_json)
+        total_items = VALUES(total_items)
       `,
       [
         randomUUID(),
@@ -40,8 +36,6 @@ export async function persistFormula(
         result.data.partes,
         result.data.hoja,
         result.data.totalItems,
-        JSON.stringify(result.warnings),
-        JSON.stringify(result.diagnostics),
       ],
     );
 

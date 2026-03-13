@@ -7,7 +7,6 @@ const workspaceRoot = path.resolve(currentDir, "..", "..");
 
 export const paths = {
   workspaceRoot,
-  outputDir: path.join(workspaceRoot, "Output"),
 };
 
 export function resolveWorkspacePath(...segments: string[]): string {

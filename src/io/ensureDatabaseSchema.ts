@@ -1,4 +1,8 @@
-import type { Pool } from "mysql2/promise";
+import type { Pool, RowDataPacket } from "mysql2/promise";
+
+interface ColumnRow extends RowDataPacket {
+  COLUMN_NAME: string;
+}
 
 export async function ensureDatabaseSchema(pool: Pool): Promise<void> {
   await pool.execute(`
@@ -8,8 +12,6 @@ export async function ensureDatabaseSchema(pool: Pool): Promise<void> {
       partes DECIMAL(18,4),
       hoja VARCHAR(50),
       total_items INT,
-      warnings_json JSON,
-      diagnostics_json JSON,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
       UNIQUE KEY uq_formulas_formula_hoja (formula, hoja),
@@ -17,6 +19,29 @@ export async function ensureDatabaseSchema(pool: Pool): Promise<void> {
       INDEX idx_formulas_hoja (hoja)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
   `);
+
+  const [columns] = await pool.query<ColumnRow[]>(`
+    SELECT COLUMN_NAME
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE()
+      AND TABLE_NAME = 'formulas'
+      AND COLUMN_NAME IN ('warnings_json', 'diagnostics_json')
+  `);
+
+  const hasWarningsColumn = columns.some(
+    (column) => column.COLUMN_NAME === "warnings_json",
+  );
+  const hasDiagnosticsColumn = columns.some(
+    (column) => column.COLUMN_NAME === "diagnostics_json",
+  );
+
+  if (hasWarningsColumn) {
+    await pool.execute(`ALTER TABLE formulas DROP COLUMN warnings_json`);
+  }
+
+  if (hasDiagnosticsColumn) {
+    await pool.execute(`ALTER TABLE formulas DROP COLUMN diagnostics_json`);
+  }
 
   await pool.execute(`
     CREATE TABLE IF NOT EXISTS formula_items (

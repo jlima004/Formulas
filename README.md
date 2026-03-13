@@ -1,6 +1,6 @@
 # Formulas PDF Parser
 
-Parser em Node.js + TypeScript para processar PDFs da raiz do projeto, gerar JSON em `Output/` e persistir dados no MySQL.
+Parser em Node.js + TypeScript para processar PDFs da raiz do projeto e persistir dados diretamente no MySQL.
 
 ## Requisitos
 
@@ -80,8 +80,7 @@ npm start
 
 1. Lê PDFs da raiz do projeto.
 2. Normaliza texto e extrai campos/itens.
-3. Grava JSON individual e consolidado em `Output/formulas.json`.
-4. Persiste resultado no MySQL (`formulas` e `formula_items`).
+3. Persiste resultado no MySQL (`formulas` e `formula_items`).
 
 ## Comandos úteis
 
@@ -110,3 +109,4 @@ docker exec formulas-mysql mysql -uformulas -pformulas formulas -e "SELECT COUNT
 - No Docker, `formulas-app` roda em modo contínuo (loop), respeitando `PARSER_INTERVAL_SECONDS`.
 - OCR é fallback automático quando extração por pdfjs é insuficiente.
 - Tipos e contrato de saída ficam em `src/types/formula.ts`.
+- A execução não gera mais arquivos JSON em `Output/`; a validação operacional deve ser feita via consultas SQL no banco.
