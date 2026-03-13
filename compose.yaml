@@ -83,6 +83,7 @@ services:
         done
     volumes:
       - ./Output:/app/Output
+      - ./secrets:/home/jlima/Projetos/Formulas/secrets:ro
     networks:
       - formulas-net
 
@@ -122,6 +123,8 @@ services:
     command:
       - node
       - dist/worker.js
+    volumes:
+      - ./secrets:/home/jlima/Projetos/Formulas/secrets:ro
     networks:
       - formulas-net
 
