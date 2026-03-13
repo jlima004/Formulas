@@ -6,10 +6,10 @@ Projeto em Node.js + TypeScript para ler os PDFs da pasta raiz, extrair os dados
 
 - Leitura em lote de todos os PDFs da pasta principal.
 - Extração do cabeçalho da fórmula.
-- Extração da tabela de itens com `codigo`, `detall`, `partes` e `costo`.
+- Extração da tabela de itens com `itemNumber`, `codigo`, `nome`, `partes` e `costo`.
 - Geração de um JSON por PDF.
 - Geração de um JSON consolidado em `Output/formulas.json`.
-- Normalização numérica para valores prontos para banco.
+- Normalização numérica para valores prontos para JSON e banco.
 
 ## Estrutura principal
 
@@ -88,7 +88,7 @@ Diagrama curto do fluxo:
 
 ```text
 PDF na raiz do projeto
-  -> leitura do PDF (pdfjs, com OCR fallback quando necessario)
+  -> leitura do PDF (pdfjs, com OCR fallback quando necessário)
   -> normalização do texto
   -> extração dos campos e itens
   -> escrita do JSON em Output/
@@ -140,47 +140,33 @@ docker exec formulas-mysql mysql -uformulas -pformulas formulas -e "SHOW TABLES;
 
 Armazena um registro por PDF processado.
 
-- `id` — chave primária auto incremento.
-- `file_name` — nome do PDF. Possui restrição `UNIQUE`.
-- `file_path` — caminho absoluto do arquivo processado.
-- `processed_at` — data/hora do processamento.
-- `page_count` — quantidade de páginas do PDF.
+- `id` — chave primária UUID (`CHAR(36)`).
 - `formula` — nome/código principal da fórmula.
-- `partes` — valor textual original de partes.
-- `partes_value` — valor numérico normalizado de partes.
-- `total_items` — total de itens como texto.
-- `total_items_value` — total de itens como inteiro.
-- `codigo` — cabeçalho textual da coluna código.
-- `detall` — cabeçalho textual da coluna detalhe.
-- `costo` — cabeçalho textual da coluna custo.
-- `hoja_n` — valor da folha/página informado no PDF.
-- `observacion` — observação extraída do documento.
+- `partes` — valor numérico de partes (DECIMAL).
+- `hoja` — valor da folha/página informado no PDF.
+- `total_items` — total de itens numérico (INT).
 - `warnings_json` — warnings do parser em JSON.
 - `diagnostics_json` — diagnósticos do parser em JSON.
-- `extraction_json` — diagnósticos de extração (`pdfjs` ou `ocr`) em JSON.
-- `raw_text` — texto bruto normalizado do documento.
 - `created_at` — timestamp de criação do registro.
 - `updated_at` — timestamp de atualização do registro.
 
 Índices e constraints:
 
-- `UNIQUE KEY uq_formulas_file_name (file_name)`
+- `UNIQUE KEY uq_formulas_formula_hoja (formula, hoja)`
 - `INDEX idx_formulas_formula (formula)`
-- `INDEX idx_formulas_processed_at (processed_at)`
+- `INDEX idx_formulas_hoja (hoja)`
 
 ### Tabela `formula_items`
 
 Armazena os itens de cada fórmula processada.
 
-- `id` — chave primária auto incremento.
-- `formula_id` — chave estrangeira para `formulas.id`.
+- `id` — chave primária UUID (`CHAR(36)`).
+- `nome` — descrição do item.
+- `formula_id` — chave estrangeira UUID para `formulas.id`.
 - `item_number` — número sequencial do item no PDF.
 - `codigo` — código do item.
-- `detall` — descrição do item.
-- `partes` — valor textual original de partes.
-- `partes_value` — valor numérico normalizado de partes.
-- `costo` — valor textual original de custo.
-- `costo_value` — valor numérico normalizado de custo.
+- `partes` — quantidade numérica em gramas (INT).
+- `costo` — custo numérico do item (DECIMAL).
 - `created_at` — timestamp de criação do registro.
 
 Índices e constraints:
@@ -191,9 +177,10 @@ Armazena os itens de cada fórmula processada.
 
 Comportamento de persistência:
 
-- O registro em `formulas` é feito com `upsert` por `file_name`.
+- O registro em `formulas` é feito com `upsert` por `(formula, hoja)`.
 - Antes de reinserir os itens de um PDF já existente, os itens antigos em `formula_items` são removidos.
 - A persistência é transacional por arquivo para evitar gravação parcial.
+- O schema é criado no formato atual com UUID e sem colunas legadas de metadata.
 
 ## Saída gerada
 
@@ -204,22 +191,28 @@ Os arquivos são gravados em `Output/`:
 
 ## Normalização numérica
 
-Os valores originais do PDF continuam preservados como texto, e agora também saem em formato numérico para uso em banco.
+Os campos principais da saída final agora são numéricos e já ficam alinhados com o schema do banco.
 
 Exemplos:
 
 - `1.000,00` vira `1000`.
 - `25,99` vira `25.99`.
+- `2,00` (partes do item) vira `2000` gramas.
 - `295,00` vira `295`.
 
-Campos adicionados:
+Contrato atual do JSON:
 
 - No nível da fórmula:
-  - `partesValue`
-  - `totalItemsValue`
+  - `formula`
+  - `partes` (número)
+  - `totalItems` (número)
+  - `hoja`
 - Em cada item:
-  - `partesValue`
-  - `costoValue`
+  - `itemNumber`
+  - `codigo`
+  - `nome`
+  - `partes` (inteiro em gramas)
+  - `costo` (número)
 
 Exemplo de item no JSON:
 
@@ -227,11 +220,9 @@ Exemplo de item no JSON:
 {
   "itemNumber": 1,
   "codigo": "MP00042",
-  "detall": "HELIOTROPINA 20% DPG",
-  "partes": "2,00",
-  "partesValue": 2,
-  "costo": "25,99",
-  "costoValue": 25.99
+  "nome": "HELIOTROPINA 20% DPG",
+  "partes": 2000,
+  "costo": 25.99
 }
 ```
 

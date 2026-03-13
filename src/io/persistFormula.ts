@@ -1,5 +1,10 @@
-import type { Pool, ResultSetHeader } from "mysql2/promise";
+import { randomUUID } from "node:crypto";
+import type { Pool, RowDataPacket } from "mysql2/promise";
 import type { FormulaParseResult } from "../types/formula.js";
+
+interface FormulaIdRow extends RowDataPacket {
+  id: string;
+}
 
 export async function persistFormula(
   pool: Pool,
@@ -10,71 +15,53 @@ export async function persistFormula(
   try {
     await conn.beginTransaction();
 
-    const [upsertResult] = await conn.execute<ResultSetHeader>(
+    await conn.execute(
       `
       INSERT INTO formulas (
-        file_name,
-        file_path,
-        processed_at,
-        page_count,
+        id,
         formula,
         partes,
-        partes_value,
+        hoja,
         total_items,
-        total_items_value,
-        codigo,
-        detall,
-        costo,
-        hoja_n,
-        observacion,
         warnings_json,
-        diagnostics_json,
-        extraction_json,
-        raw_text
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        diagnostics_json
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
       ON DUPLICATE KEY UPDATE
-        file_path = VALUES(file_path),
-        processed_at = VALUES(processed_at),
-        page_count = VALUES(page_count),
         formula = VALUES(formula),
         partes = VALUES(partes),
-        partes_value = VALUES(partes_value),
+        hoja = VALUES(hoja),
         total_items = VALUES(total_items),
-        total_items_value = VALUES(total_items_value),
-        codigo = VALUES(codigo),
-        detall = VALUES(detall),
-        costo = VALUES(costo),
-        hoja_n = VALUES(hoja_n),
-        observacion = VALUES(observacion),
         warnings_json = VALUES(warnings_json),
-        diagnostics_json = VALUES(diagnostics_json),
-        extraction_json = VALUES(extraction_json),
-        raw_text = VALUES(raw_text),
-        id = LAST_INSERT_ID(id)
+        diagnostics_json = VALUES(diagnostics_json)
       `,
       [
-        result.metadata.fileName,
-        result.metadata.filePath,
-        new Date(result.metadata.processedAt),
-        result.metadata.pageCount,
+        randomUUID(),
         result.data.formula,
         result.data.partes,
-        result.data.partesValue,
+        result.data.hoja,
         result.data.totalItems,
-        result.data.totalItemsValue,
-        result.data.codigo,
-        result.data.detall,
-        result.data.costo,
-        result.data.hojaN,
-        result.data.observacion,
         JSON.stringify(result.warnings),
         JSON.stringify(result.diagnostics),
-        JSON.stringify(result.extraction ?? null),
-        result.rawText,
       ],
     );
 
-    const formulaId = upsertResult.insertId;
+    const [formulaRows] = await conn.execute<FormulaIdRow[]>(
+      `
+      SELECT id
+      FROM formulas
+      WHERE formula <=> ?
+        AND hoja <=> ?
+      LIMIT 1
+      `,
+      [result.data.formula, result.data.hoja],
+    );
+
+    const formulaId = formulaRows[0]?.id;
+    if (!formulaId) {
+      throw new Error(
+        "Nao foi possivel localizar o ID UUID da formula persistida.",
+      );
+    }
 
     await conn.execute(`DELETE FROM formula_items WHERE formula_id = ?`, [
       formulaId,
@@ -82,30 +69,28 @@ export async function persistFormula(
 
     if (result.data.items.length > 0) {
       const placeholders = result.data.items
-        .map(() => "(?, ?, ?, ?, ?, ?, ?, ?)")
+        .map(() => "(?, ?, ?, ?, ?, ?, ?)")
         .join(", ");
       const values = result.data.items.flatMap((item) => [
+        randomUUID(),
+        item.nome,
         formulaId,
         item.itemNumber,
         item.codigo,
-        item.detall,
         item.partes,
-        item.partesValue,
         item.costo,
-        item.costoValue,
       ]);
 
       await conn.execute(
         `
         INSERT INTO formula_items (
+          id,
+          nome,
           formula_id,
           item_number,
           codigo,
-          detall,
           partes,
-          partes_value,
-          costo,
-          costo_value
+          costo
         ) VALUES ${placeholders}
         `,
         values,

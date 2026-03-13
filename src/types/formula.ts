@@ -1,35 +1,19 @@
-export type FormulaFieldKey =
-  | "formula"
-  | "partes"
-  | "totalItems"
-  | "codigo"
-  | "detall"
-  | "costo"
-  | "hojaN"
-  | "observacion";
+export type FormulaFieldKey = "formula" | "partes" | "totalItems" | "hoja";
 
 export interface FormulaData {
   formula: string | null;
-  partes: string | null;
-  partesValue: number | null;
-  totalItems: string | null;
-  totalItemsValue: number | null;
-  codigo: string | null;
-  detall: string | null;
-  costo: string | null;
-  hojaN: string | null;
-  observacion: string | null;
+  partes: number | null;
+  totalItems: number | null;
+  hoja: string | null;
   items: FormulaItem[];
 }
 
 export interface FormulaItem {
   itemNumber: number;
   codigo: string;
-  detall: string;
-  partes: string;
-  partesValue: number | null;
-  costo: string;
-  costoValue: number | null;
+  nome: string;
+  partes: number | null;
+  costo: number | null;
 }
 
 export interface ParseWarning {
