@@ -40,7 +40,7 @@ docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build app
 docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build worker
 docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d app worker nginx
 
-docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" run --rm certbot \
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" run --rm --entrypoint certbot certbot \
   certonly \
   --webroot \
   --webroot-path=/var/www/certbot \
