@@ -36,7 +36,8 @@ mkdir -p \
 
 "$SCRIPT_DIR/render-nginx-conf.sh" "$DOMAIN" "http"
 
-docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build --no-parallel app worker
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build app
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build worker
 docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d app worker nginx
 
 docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" run --rm certbot \
