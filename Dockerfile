@@ -2,6 +2,9 @@
 
 FROM node:22-bookworm-slim AS build
 
+# Evita estouro de heap do Node durante o tsc em droplets com pouca memoria.
+ENV NODE_OPTIONS=--max-old-space-size=3072
+
 WORKDIR /app
 
 COPY package.json package-lock.json ./

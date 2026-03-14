@@ -36,7 +36,8 @@ else
   "$SCRIPT_DIR/render-nginx-conf.sh" "$DOMAIN" "http"
 fi
 
-docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d --build
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build --no-parallel app worker
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d
 
 if [ -f "$CERT_FILE" ]; then
   docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d certbot
