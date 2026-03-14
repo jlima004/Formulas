@@ -3,6 +3,7 @@ import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
 import { logger } from "../config/logger.js";
+import { env } from "../config/env.js";
 import { registerHealthRoutes } from "./routes/health.routes.js";
 import { registerWebhookRoutes } from "./routes/webhook.routes.js";
 import { registerDriveRoutes } from "./routes/drive.routes.js";
@@ -12,6 +13,7 @@ export async function buildApiServer() {
   const app = Fastify({
     logger: false,
     bodyLimit: 2 * 1024 * 1024,
+    trustProxy: env.TRUST_PROXY,
   });
 
   await app.register(cors, { origin: true });
