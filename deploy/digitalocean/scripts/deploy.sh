@@ -39,6 +39,7 @@ fi
 docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build app
 docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build worker
 docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d --force-recreate nginx
 
 if [ -f "$CERT_FILE" ]; then
   docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d certbot
