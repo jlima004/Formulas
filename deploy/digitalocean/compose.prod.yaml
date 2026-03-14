@@ -1,0 +1,159 @@
+services:
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    networks:
+      - formulas-prod-net
+
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:?MYSQL_DATABASE is required}
+      MYSQL_USER: ${MYSQL_USER:?MYSQL_USER is required}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?MYSQL_PASSWORD is required}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD --silent",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - formulas-prod-net
+
+  app:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    init: true
+    depends_on:
+      redis:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      API_MODE: api
+      API_HOST: 0.0.0.0
+      API_PORT: 3000
+      TRUST_PROXY: "true"
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_ENABLED: "true"
+      REDIS_URL: redis://redis:6379
+      REDIS_QUEUE_NAME: ${REDIS_QUEUE_NAME:-drive-file-events}
+      DRIVE_WEBHOOK_TOKEN: ${DRIVE_WEBHOOK_TOKEN:-}
+      DRIVE_WEBHOOK_ADDRESS: ${DRIVE_WEBHOOK_ADDRESS:-}
+      DRIVE_FOLDER_ID: ${DRIVE_FOLDER_ID:-}
+      DRIVE_SHARED_DRIVE_ID: ${DRIVE_SHARED_DRIVE_ID:-}
+      DRIVE_TEMP_DIR: ${DRIVE_TEMP_DIR:-/tmp/formulas-drive}
+      DRIVE_SYNC_MAX_FILES: ${DRIVE_SYNC_MAX_FILES:-200}
+      DRIVE_WATCH_TTL_SECONDS: ${DRIVE_WATCH_TTL_SECONDS:-86400}
+      DRIVE_WATCH_AUTO_RENEW_ENABLED: ${DRIVE_WATCH_AUTO_RENEW_ENABLED:-true}
+      DRIVE_WATCH_RENEW_BEFORE_SECONDS: ${DRIVE_WATCH_RENEW_BEFORE_SECONDS:-900}
+      DRIVE_WATCH_CHECK_INTERVAL_SECONDS: ${DRIVE_WATCH_CHECK_INTERVAL_SECONDS:-60}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-/app/secrets/gcp-service-account.json}
+      GOOGLE_SERVICE_ACCOUNT_KEY_JSON: ${GOOGLE_SERVICE_ACCOUNT_KEY_JSON:-}
+      GOOGLE_DRIVE_SCOPES: ${GOOGLE_DRIVE_SCOPES:-https://www.googleapis.com/auth/drive.readonly}
+    command: ["node", "dist/index.js", "--mode=api"]
+    expose:
+      - "3000"
+    volumes:
+      - ../../Output:/app/Output
+      - ../../secrets:/app/secrets:ro
+    networks:
+      - formulas-prod-net
+
+  worker:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    init: true
+    depends_on:
+      redis:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_ENABLED: "true"
+      REDIS_URL: redis://redis:6379
+      REDIS_QUEUE_NAME: ${REDIS_QUEUE_NAME:-drive-file-events}
+      DRIVE_WEBHOOK_ADDRESS: ${DRIVE_WEBHOOK_ADDRESS:-}
+      DRIVE_FOLDER_ID: ${DRIVE_FOLDER_ID:-}
+      DRIVE_SHARED_DRIVE_ID: ${DRIVE_SHARED_DRIVE_ID:-}
+      DRIVE_TEMP_DIR: ${DRIVE_TEMP_DIR:-/tmp/formulas-drive}
+      DRIVE_SYNC_MAX_FILES: ${DRIVE_SYNC_MAX_FILES:-200}
+      DRIVE_WATCH_TTL_SECONDS: ${DRIVE_WATCH_TTL_SECONDS:-86400}
+      DRIVE_WATCH_AUTO_RENEW_ENABLED: ${DRIVE_WATCH_AUTO_RENEW_ENABLED:-true}
+      DRIVE_WATCH_RENEW_BEFORE_SECONDS: ${DRIVE_WATCH_RENEW_BEFORE_SECONDS:-900}
+      DRIVE_WATCH_CHECK_INTERVAL_SECONDS: ${DRIVE_WATCH_CHECK_INTERVAL_SECONDS:-60}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-/app/secrets/gcp-service-account.json}
+      GOOGLE_SERVICE_ACCOUNT_KEY_JSON: ${GOOGLE_SERVICE_ACCOUNT_KEY_JSON:-}
+      GOOGLE_DRIVE_SCOPES: ${GOOGLE_DRIVE_SCOPES:-https://www.googleapis.com/auth/drive.readonly}
+    command: ["node", "dist/worker.js"]
+    volumes:
+      - ../../secrets:/app/secrets:ro
+    networks:
+      - formulas-prod-net
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    networks:
+      - formulas-prod-net
+
+  certbot:
+    image: certbot/certbot:latest
+    restart: unless-stopped
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        trap exit TERM;
+        while :; do
+          certbot renew --webroot -w /var/www/certbot --quiet;
+          sleep 12h & wait $${!};
+        done
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  formulas-prod-net:
+    driver: bridge

@@ -15,3 +15,11 @@ Output/
 
 # json credencial
 secrets/*
+root*
+
+# Deploy DigitalOcean (local env/certs)
+deploy/digitalocean/.env.prod
+deploy/digitalocean/certbot/conf/*
+!deploy/digitalocean/certbot/conf/.gitkeep
+deploy/digitalocean/certbot/www/*
+!deploy/digitalocean/certbot/www/.gitkeep

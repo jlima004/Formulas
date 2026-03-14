@@ -163,6 +163,18 @@ curl -s http://localhost:3000/api/drive/watch
 - `POST /api/drive/watch/stop`
 - `POST /webhooks/drive`
 
+## Deploy em producao (DigitalOcean)
+
+Foi adicionada uma estrutura dedicada de producao em `deploy/digitalocean` com:
+
+- compose de producao (`compose.prod.yaml`)
+- Nginx + Certbot para SSL
+- scripts de bootstrap e deploy no Droplet
+
+Guia completo: `deploy/digitalocean/README.md`.
+
+Fluxo operacional sem hardening (redeploy e smoke test) tambem esta documentado nesse guia.
+
 ## Troubleshooting rapido
 
 - API nao sobe: confira `docker compose logs formulas-app`.

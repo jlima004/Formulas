@@ -11,6 +11,10 @@
     "test:e2e:drive-real": "bash scripts/e2e-drive-real.sh",
     "test:e2e:drive-real:persistent": "KEEP_RUNTIME_UP=1 KEEP_ENV_UP=1 bash scripts/e2e-drive-real.sh",
     "stop:e2e:drive-real": "bash scripts/e2e-drive-real-stop.sh",
+    "deploy:do:prod": "sh deploy/digitalocean/scripts/deploy.sh",
+    "deploy:do:prod:issue-cert": "sh deploy/digitalocean/scripts/issue-cert.sh",
+    "deploy:do:prod:update": "sh deploy/digitalocean/scripts/update-and-deploy.sh",
+    "deploy:do:prod:smoke": "sh deploy/digitalocean/scripts/smoke-test.sh",
     "build": "tsc -p tsconfig.json",
     "test": "vitest run"
   },

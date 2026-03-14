@@ -37,6 +37,7 @@ export const env = {
   API_MODE: asApiMode(process.env.API_MODE),
   API_HOST: asString(process.env.API_HOST, "0.0.0.0"),
   API_PORT: asNumber(process.env.API_PORT, 3000),
+  TRUST_PROXY: asBoolean(process.env.TRUST_PROXY, false),
   REDIS_ENABLED: asBoolean(process.env.REDIS_ENABLED, false),
   REDIS_URL: asString(process.env.REDIS_URL, "redis://127.0.0.1:6379"),
   REDIS_QUEUE_NAME: asString(process.env.REDIS_QUEUE_NAME, "drive-file-events"),
