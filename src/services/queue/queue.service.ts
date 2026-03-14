@@ -74,7 +74,7 @@ export class QueueService {
       return syntheticId;
     }
 
-    const jobId = `${payload.event.resourceId}:${payload.event.messageNumber || randomUUID()}`;
+    const jobId = `webhook-${payload.event.resourceId}-${payload.event.messageNumber || randomUUID()}`;
     await this.queue.add("drive-notification", payload, { jobId });
     return jobId;
   }
@@ -89,7 +89,7 @@ export class QueueService {
       return syntheticId;
     }
 
-    const jobId = `manual-sync:${folderId}:${Date.now()}`;
+    const jobId = `manual-sync-${folderId}-${Date.now()}`;
     const payload: DriveManualSyncJob = {
       kind: "manual-sync",
       requestedAt: new Date().toISOString(),

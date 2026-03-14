@@ -1,0 +1,69 @@
+[2026-03-13 18:13:01.420 -0300] [32mINFO[39m (3694): [36mServidor API iniciado.[39m
+    [35mmode[39m: "api"
+    [35mhost[39m: "0.0.0.0"
+    [35mport[39m: 3000
+[2026-03-13 18:13:12.492 -0300] [32mINFO[39m (3694): [36mNotificacao do Drive recebida e enfileirada.[39m
+    [35mjobId[39m: "webhook-ojxs2JIxR2ZpZ6dAbXnbRVwiNsk-9000000001"
+    [35mchannelId[39m: "0499fe41-5ae8-4318-be64-595d34411321"
+    [35mresourceState[39m: "sync"
+[2026-03-13 18:13:12.532 -0300] [33mWARN[39m (3694): [36mMensagem duplicada de webhook ignorada.[39m
+    [35mchannelId[39m: "0499fe41-5ae8-4318-be64-595d34411321"
+    [35mmessageNumber[39m: "9000000001"
+[ioredis] Unhandled error event: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:216:20)
+[ioredis] Unhandled error event: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:216:20)
+[ioredis] Unhandled error event: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:216:20)
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+[ioredis] Unhandled error event: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:216:20)
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+[ioredis] Unhandled error event: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:216:20)

@@ -1,0 +1,10 @@
+run_id=20260313-174147
+tunnel_url=https://specs-techrepublic-delicious-rca.trycloudflare.com
+watch_channel_id=ca3bb48f-dd2c-4d10-ae6e-9fe49204c39a
+watch_resource_id=ojxs2JIxR2ZpZ6dAbXnbRVwiNsk
+formulas=4
+formula_items=124
+checkpoints=5
+diagnostics_status=ok
+dedup_first=false
+dedup_second=true

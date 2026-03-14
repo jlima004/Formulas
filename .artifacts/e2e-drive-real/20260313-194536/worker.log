@@ -1,0 +1,179 @@
+[2026-03-13 19:46:28.731 -0300] [32mINFO[39m (8933): [36mWorker de notificacoes Drive iniciado.[39m
+[2026-03-13 19:46:36.145 -0300] [32mINFO[39m (8933): [36mEvento do Drive processado pelo worker.[39m
+    [35mjobId[39m: "manual-sync-1-sWDw0kT0dcKgNoMaqoN0bKjvWo0efO2-1773441992982"
+    [35mkind[39m: "manual-sync"
+    [35msummary[39m: {
+      "folderId": "1-sWDw0kT0dcKgNoMaqoN0bKjvWo0efO2",
+      "listed": 2,
+      "processed": 2,
+      "skipped": 0
+    }
+[2026-03-13 19:46:39.286 -0300] [32mINFO[39m (8933): [36mEvento do Drive processado pelo worker.[39m
+    [35mjobId[39m: "webhook-ojxs2JIxR2ZpZ6dAbXnbRVwiNsk-9000000001"
+    [35mkind[39m: "webhook"
+    [35msummary[39m: {
+      "folderId": "1-sWDw0kT0dcKgNoMaqoN0bKjvWo0efO2",
+      "listed": 2,
+      "processed": 0,
+      "skipped": 2
+    }
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}

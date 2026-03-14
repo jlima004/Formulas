@@ -8,6 +8,9 @@
     "start:api": "tsx src/index.ts --mode=api",
     "start:both": "tsx src/index.ts --mode=both",
     "start:worker": "tsx src/worker.ts",
+    "test:e2e:drive-real": "bash scripts/e2e-drive-real.sh",
+    "test:e2e:drive-real:persistent": "KEEP_RUNTIME_UP=1 KEEP_ENV_UP=1 bash scripts/e2e-drive-real.sh",
+    "stop:e2e:drive-real": "bash scripts/e2e-drive-real-stop.sh",
     "build": "tsc -p tsconfig.json",
     "test": "vitest run"
   },

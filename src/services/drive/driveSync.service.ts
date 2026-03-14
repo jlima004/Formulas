@@ -39,7 +39,9 @@ export class DriveSyncService {
   }
 
   async syncFolder(folderId: string, pool: Pool): Promise<DriveSyncSummary> {
-    const files = await this.driveClient.listPdfFilesInFolder(folderId);
+    const files = await this.driveClient.listPdfFilesInFolder(folderId, {
+      driveId: env.DRIVE_SHARED_DRIVE_ID || undefined,
+    });
     const candidates = files.slice(0, env.DRIVE_SYNC_MAX_FILES);
     const checkpointVersionMap =
       await this.driveFileCheckpointRepository.getVersionMapByFileIds(

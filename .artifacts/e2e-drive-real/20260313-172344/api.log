@@ -1,0 +1,5 @@
+
+> formulas-pdf-parser@1.0.0 start:api
+> tsx src/index.ts --mode=api
+
+listen EADDRINUSE: address already in use 0.0.0.0:3000

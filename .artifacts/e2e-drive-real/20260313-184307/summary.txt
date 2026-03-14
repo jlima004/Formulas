@@ -1,0 +1,12 @@
+run_id=20260313-184307
+tunnel_url=https://implied-servers-remind-eyed.trycloudflare.com
+watch_channel_id=07b8458b-6057-4412-a784-f8eb87c71b0a
+watch_resource_id=ojxs2JIxR2ZpZ6dAbXnbRVwiNsk
+formulas=6
+formula_items=86
+checkpoints=6
+diagnostics_status=ok
+dedup_first=false
+dedup_second=true
+keep_env_up=1
+keep_runtime_up=1

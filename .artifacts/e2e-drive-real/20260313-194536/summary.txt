@@ -1,0 +1,12 @@
+run_id=20260313-194536
+tunnel_url=https://horn-interracial-lite-summaries.trycloudflare.com
+watch_channel_id=c094b73b-1a7b-491f-a6e2-8e5289b2fdbd
+watch_resource_id=ojxs2JIxR2ZpZ6dAbXnbRVwiNsk
+formulas=2
+formula_items=44
+checkpoints=2
+diagnostics_status=ok
+dedup_first=false
+dedup_second=true
+keep_env_up=1
+keep_runtime_up=1

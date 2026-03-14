@@ -18,13 +18,20 @@ export class DriveClient {
     });
   }
 
-  async listPdfFilesInFolder(folderId: string): Promise<DrivePdfFile[]> {
+  async listPdfFilesInFolder(
+    folderId: string,
+    options?: { driveId?: string },
+  ): Promise<DrivePdfFile[]> {
+    const driveId = options?.driveId?.trim() || undefined;
+
     const response = await this.api.files.list({
       q: `'${folderId}' in parents and mimeType='application/pdf' and trashed=false`,
       fields: "files(id,name,mimeType,modifiedTime)",
       pageSize: 1000,
       supportsAllDrives: true,
       includeItemsFromAllDrives: true,
+      corpora: driveId ? "drive" : "allDrives",
+      driveId,
     });
 
     const files: DrivePdfFile[] = [];
@@ -60,9 +67,12 @@ export class DriveClient {
     return Buffer.from(response.data as ArrayBuffer);
   }
 
-  async getStartPageToken(): Promise<string> {
+  async getStartPageToken(options?: { driveId?: string }): Promise<string> {
+    const driveId = options?.driveId?.trim() || undefined;
+
     const response = await this.api.changes.getStartPageToken({
       supportsAllDrives: true,
+      driveId,
     });
 
     if (!response.data.startPageToken) {
@@ -76,6 +86,7 @@ export class DriveClient {
     pageToken: string;
     channelId: string;
     address: string;
+    driveId?: string;
     channelToken?: string;
     expirationMs?: number;
   }): Promise<{
@@ -84,9 +95,18 @@ export class DriveClient {
     resourceUri?: string;
     expirationMs?: number;
   }> {
+    const driveId = params.driveId?.trim() || undefined;
+
     const response = await this.api.changes.watch(
       {
         pageToken: params.pageToken,
+        spaces: "drive",
+        supportsAllDrives: true,
+        includeItemsFromAllDrives: true,
+        includeRemoved: true,
+        includeCorpusRemovals: true,
+        restrictToMyDrive: false,
+        driveId,
         requestBody: {
           id: params.channelId,
           type: "web_hook",
@@ -96,9 +116,6 @@ export class DriveClient {
             ? String(params.expirationMs)
             : undefined,
         },
-      },
-      {
-        responseType: "json",
       },
     );
 

@@ -1,0 +1,19 @@
+[2026-03-13 18:17:52.793 -0300] [32mINFO[39m (6852): [36mWorker de notificacoes Drive iniciado.[39m
+[2026-03-13 18:18:07.647 -0300] [32mINFO[39m (6852): [36mEvento do Drive processado pelo worker.[39m
+    [35mjobId[39m: "manual-sync-1-sWDw0kT0dcKgNoMaqoN0bKjvWo0efO2-1773436677476"
+    [35mkind[39m: "manual-sync"
+    [35msummary[39m: {
+      "folderId": "1-sWDw0kT0dcKgNoMaqoN0bKjvWo0efO2",
+      "listed": 7,
+      "processed": 7,
+      "skipped": 0
+    }
+[2026-03-13 18:18:13.860 -0300] [32mINFO[39m (6852): [36mEvento do Drive processado pelo worker.[39m
+    [35mjobId[39m: "webhook-ojxs2JIxR2ZpZ6dAbXnbRVwiNsk-9000000001"
+    [35mkind[39m: "webhook"
+    [35msummary[39m: {
+      "folderId": "1-sWDw0kT0dcKgNoMaqoN0bKjvWo0efO2",
+      "listed": 7,
+      "processed": 0,
+      "skipped": 7
+    }

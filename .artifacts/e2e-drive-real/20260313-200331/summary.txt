@@ -1,0 +1,13 @@
+run_id=20260313-200331
+tunnel_url=https://shopping-beautifully-analyses-vocals.trycloudflare.com
+webhook_url=https://shopping-beautifully-analyses-vocals.trycloudflare.com/webhooks/drive
+watch_channel_id=243636ca-a308-40bd-9f49-bf031225c31b
+watch_resource_id=ojxs2JIxR2ZpZ6dAbXnbRVwiNsk
+formulas=2
+formula_items=44
+checkpoints=2
+diagnostics_status=ok
+dedup_first=false
+dedup_second=true
+keep_env_up=1
+keep_runtime_up=1

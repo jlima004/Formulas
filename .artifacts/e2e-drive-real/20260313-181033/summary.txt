@@ -1,0 +1,10 @@
+run_id=20260313-181033
+tunnel_url=https://discs-indicates-organizations-schemes.trycloudflare.com
+watch_channel_id=0499fe41-5ae8-4318-be64-595d34411321
+watch_resource_id=ojxs2JIxR2ZpZ6dAbXnbRVwiNsk
+formulas=4
+formula_items=121
+checkpoints=4
+diagnostics_status=ok
+dedup_first=false
+dedup_second=true

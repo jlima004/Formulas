@@ -7,6 +7,23 @@ import {
   type DriveWatchChannel,
 } from "../../repositories/driveWatchChannel.repository.js";
 
+function normalizeWebhookAddress(address: string): string {
+  const raw = address.trim();
+  if (!raw) {
+    return "";
+  }
+
+  try {
+    const parsed = new URL(raw);
+    if (parsed.pathname === "/" || parsed.pathname === "") {
+      parsed.pathname = "/webhooks/drive";
+    }
+    return parsed.toString().replace(/\/$/, "");
+  } catch {
+    return raw;
+  }
+}
+
 export interface DriveWatchStartResult {
   channelId: string;
   resourceId: string;
@@ -32,11 +49,15 @@ export class DriveWatchService {
   }
 
   async start(pool: Pool): Promise<DriveWatchStartResult> {
-    if (!env.DRIVE_WEBHOOK_ADDRESS) {
+    const webhookAddress = normalizeWebhookAddress(env.DRIVE_WEBHOOK_ADDRESS);
+
+    if (!webhookAddress) {
       throw new Error("DRIVE_WEBHOOK_ADDRESS nao configurado.");
     }
 
-    const pageToken = await this.driveClient.getStartPageToken();
+    const pageToken = await this.driveClient.getStartPageToken({
+      driveId: env.DRIVE_SHARED_DRIVE_ID || undefined,
+    });
     const channelId = randomUUID();
     const channelToken = env.DRIVE_WEBHOOK_TOKEN || randomUUID();
     const expirationMs = Date.now() + env.DRIVE_WATCH_TTL_SECONDS * 1000;
@@ -44,7 +65,8 @@ export class DriveWatchService {
     const watchResponse = await this.driveClient.watchChanges({
       pageToken,
       channelId,
-      address: env.DRIVE_WEBHOOK_ADDRESS,
+      address: webhookAddress,
+      driveId: env.DRIVE_SHARED_DRIVE_ID || undefined,
       channelToken,
       expirationMs,
     });
@@ -58,7 +80,7 @@ export class DriveWatchService {
       resourceId: watchResponse.resourceId,
       resourceUri: watchResponse.resourceUri,
       channelToken,
-      webhookAddress: env.DRIVE_WEBHOOK_ADDRESS,
+      webhookAddress,
       pageToken,
       expiresAt,
     });

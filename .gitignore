@@ -12,3 +12,6 @@ Output/
 
 # PDF files in root directory
 *.pdf
+
+# json credencial
+secrets/*

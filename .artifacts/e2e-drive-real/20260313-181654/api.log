@@ -1,0 +1,11 @@
+[2026-03-13 18:17:48.278 -0300] [32mINFO[39m (6730): [36mServidor API iniciado.[39m
+    [35mmode[39m: "api"
+    [35mhost[39m: "0.0.0.0"
+    [35mport[39m: 3000
+[2026-03-13 18:18:13.161 -0300] [32mINFO[39m (6730): [36mNotificacao do Drive recebida e enfileirada.[39m
+    [35mjobId[39m: "webhook-ojxs2JIxR2ZpZ6dAbXnbRVwiNsk-9000000001"
+    [35mchannelId[39m: "f91179f9-78a8-4fa5-9847-d74a44126e80"
+    [35mresourceState[39m: "sync"
+[2026-03-13 18:18:13.315 -0300] [33mWARN[39m (6730): [36mMensagem duplicada de webhook ignorada.[39m
+    [35mchannelId[39m: "f91179f9-78a8-4fa5-9847-d74a44126e80"
+    [35mmessageNumber[39m: "9000000001"

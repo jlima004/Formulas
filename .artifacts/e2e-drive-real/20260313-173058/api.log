@@ -1,0 +1,261 @@
+[2026-03-13 17:31:51.502 -0300] [32mINFO[39m (19432): [36mServidor API iniciado.[39m
+    [35mmode[39m: "api"
+    [35mhost[39m: "0.0.0.0"
+    [35mport[39m: 3000
+[2026-03-13 17:32:08.489 -0300] [31mERROR[39m (19432): [36mErro na camada API.[39m
+    err: {
+      "type": "Error",
+      "message": "Custom Id cannot contain :",
+      "stack":
+          Error: Custom Id cannot contain :
+              at Job.validateOptions (/home/jlima/Projetos/Formulas/node_modules/bullmq/src/classes/job.ts:1593:15)
+              at Job.addJob (/home/jlima/Projetos/Formulas/node_modules/bullmq/src/classes/job.ts:1523:10)
+              at Job.create (/home/jlima/Projetos/Formulas/node_modules/bullmq/src/classes/job.ts:285:24)
+              at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+              at async Queue.addJob (/home/jlima/Projetos/Formulas/node_modules/bullmq/src/classes/queue.ts:378:19)
+              at async <anonymous> (/home/jlima/Projetos/Formulas/node_modules/bullmq/src/classes/queue.ts:332:21)
+              at async QueueService.enqueueDriveNotification (/home/jlima/Projetos/Formulas/src/services/queue/queue.service.ts:78:5)
+              at async Object.<anonymous> (/home/jlima/Projetos/Formulas/src/api/routes/webhook.routes.ts:102:19)
+    }
+[2026-03-13 17:32:08.548 -0300] [33mWARN[39m (19432): [36mMensagem duplicada de webhook ignorada.[39m
+    [35mchannelId[39m: "72150e11-4e7e-4edd-aa1b-2a5d601a9678"
+    [35mmessageNumber[39m: "9000000001"
+[ioredis] Unhandled error event: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:216:20)
+[ioredis] Unhandled error event: Error: write ECONNRESET
+    at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+    at writeGeneric (node:internal/stream_base_commons:150:3)
+    at Socket._writeGeneric (node:net:966:11)
+    at Socket._write (node:net:978:8)
+    at writeOrBuffer (node:internal/streams/writable:570:12)
+    at _write (node:internal/streams/writable:499:10)
+    at Writable.write (node:internal/streams/writable:508:10)
+    at EventEmitter.sendCommand (/home/jlima/Projetos/Formulas/node_modules/ioredis/built/Redis.js:406:29)
+    at EventEmitter.client (/home/jlima/Projetos/Formulas/node_modules/ioredis/built/utils/Commander.js:90:25)
+    at /home/jlima/Projetos/Formulas/node_modules/ioredis/built/redis/event_handler.js:65:22
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+Error: connect ECONNREFUSED 127.0.0.1:6379
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1645:16) {
+  errno: -111,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 6379
+}
+[ioredis] Unhandled error event: Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:216:20)

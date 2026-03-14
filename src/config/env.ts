@@ -42,6 +42,7 @@ export const env = {
   REDIS_QUEUE_NAME: asString(process.env.REDIS_QUEUE_NAME, "drive-file-events"),
   DRIVE_WEBHOOK_TOKEN: asString(process.env.DRIVE_WEBHOOK_TOKEN),
   DRIVE_FOLDER_ID: asString(process.env.DRIVE_FOLDER_ID),
+  DRIVE_SHARED_DRIVE_ID: asString(process.env.DRIVE_SHARED_DRIVE_ID),
   DRIVE_WEBHOOK_ADDRESS: asString(process.env.DRIVE_WEBHOOK_ADDRESS),
   DRIVE_TEMP_DIR: asString(process.env.DRIVE_TEMP_DIR, "/tmp/formulas-drive"),
   DRIVE_SYNC_MAX_FILES: asNumber(process.env.DRIVE_SYNC_MAX_FILES, 200),

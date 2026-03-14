@@ -1,50 +1,57 @@
 # Formulas PDF Parser
 
-Parser em Node.js + TypeScript para processar PDFs e persistir os dados estruturados no MySQL. O projeto suporta dois modos de execução:
+Parser em Node.js + TypeScript para extrair dados de PDFs e persistir no MySQL.
 
-1. Modo batch local (scanner de PDFs da raiz do projeto).
-2. Modo API + Worker (webhook/sync com Google Drive e fila Redis/BullMQ).
+## Visao geral
 
-## Requisitos
+O projeto suporta dois modos de operacao:
+
+1. `batch`: processa PDFs da raiz do projeto.
+2. `api + worker`: recebe eventos do Google Drive e processa via fila Redis.
+
+Fluxo principal: PDF -> normalizacao -> extracao -> persistencia MySQL.
+
+## Pre-requisitos
 
 - Node.js 22+
 - npm
 - Docker e Docker Compose
 
-## Arquitetura resumida
+## Instalacao do zero (Docker recomendado)
 
-1. Parser:
-
-- Leitura de PDF/OCR fallback.
-- Normalização de texto.
-- Extração de campos e itens.
-- Persistência no MySQL.
-
-2. API:
-
-- Healthcheck.
-- Webhook do Google Drive.
-- Trigger de sincronização manual da pasta Drive.
-- Gestão de canal Watch (start/renew/stop/status).
-
-3. Worker:
-
-- Consumo de jobs BullMQ.
-- Sincronização da pasta Drive.
-- Download temporário de PDFs.
-- Processamento no parser e persistência.
-
-## Instalação e execução
-
-### Opção A: Docker Compose (recomendado)
-
-1. Configure ambiente:
+1. Copie o arquivo de ambiente:
 
 ```bash
 cp .env.example .env
 ```
 
-2. Ajuste variáveis conforme necessidade.
+2. Ajuste o `.env` com os valores minimos:
+
+```env
+MYSQL_HOST=mysql
+MYSQL_PORT=3306
+MYSQL_DATABASE=formulas
+MYSQL_USER=formulas
+MYSQL_PASSWORD=formulas
+MYSQL_ROOT_PASSWORD=root
+
+API_MODE=api
+API_HOST=0.0.0.0
+API_PORT=3000
+
+REDIS_ENABLED=true
+REDIS_URL=redis://redis:6379
+REDIS_QUEUE_NAME=drive-file-events
+
+DRIVE_FOLDER_ID=<id-da-pasta>
+DRIVE_SHARED_DRIVE_ID=<id-do-shared-drive-opcional>
+DRIVE_WEBHOOK_TOKEN=<token-secreto>
+DRIVE_WEBHOOK_ADDRESS=https://<url-publica>/webhooks/drive
+
+GOOGLE_APPLICATION_CREDENTIALS=/home/jlima/Projetos/Formulas/secrets/gcp-service-account.json
+GOOGLE_SERVICE_ACCOUNT_KEY_JSON=
+GOOGLE_DRIVE_SCOPES=https://www.googleapis.com/auth/drive.readonly
+```
 
 3. Suba a stack:
 
@@ -52,55 +59,39 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
-4. Verifique serviços:
+4. Verifique os servicos:
 
 ```bash
 docker compose ps
 ```
 
-5. Logs:
+## Instalacao local (alternativa)
 
-```bash
-docker logs -f formulas-app
-docker logs -f formulas-worker
-```
-
-6. Parar tudo:
-
-```bash
-docker compose down
-```
-
-### Opção B: Local (Node) + MySQL no Docker
-
-1. Configure ambiente:
-
-```bash
-cp .env.example .env
-```
-
-2. Suba banco e Redis:
+1. Suba banco e redis:
 
 ```bash
 docker compose up -d mysql redis
 ```
 
-3. Instale dependências:
+2. Instale dependencias e compile:
 
 ```bash
 npm install
-```
-
-4. Build:
-
-```bash
 npm run build
 ```
 
-## Modos de execução
+3. Execute no modo desejado:
 
 ```bash
-# parser batch único (modo legado)
+npm start
+npm run start:api
+npm run start:worker
+```
+
+## Execucao
+
+```bash
+# batch local
 npm start
 
 # somente API
@@ -109,120 +100,73 @@ npm run start:api
 # API + batch no mesmo processo
 npm run start:both
 
-# worker de fila (Drive events)
+# worker de fila
 npm run start:worker
 ```
 
-## Endpoints da API
+## Teste real persistente (Drive)
 
-1. Saúde:
+Use este fluxo para validar entrada de novos PDFs em tempo real sem derrubar API/worker/tunnel no fim do teste.
+
+1. Iniciar teste E2E em modo persistente:
+
+```bash
+npm run test:e2e:drive-real:persistent
+```
+
+2. Adicionar um novo PDF na pasta do Google Drive configurada.
+
+3. Acompanhar logs e validar no banco (formulas e drive_file_checkpoints).
+
+4. Encerrar tudo manualmente quando finalizar o teste:
+
+```bash
+npm run stop:e2e:drive-real
+```
+
+Observacao: o modo padrao continua disponivel em npm run test:e2e:drive-real e encerra runtime no final.
+
+## Validacao rapida
+
+1. Health:
+
+```bash
+curl -s http://localhost:3000/health
+```
+
+2. Diagnostico:
+
+```bash
+curl -s http://localhost:3000/api/diagnostics
+```
+
+3. Criar canal watch:
+
+```bash
+curl -s -X POST http://localhost:3000/api/drive/watch/start
+```
+
+4. Ver watch ativo:
+
+```bash
+curl -s http://localhost:3000/api/drive/watch
+```
+
+## Endpoints principais
 
 - `GET /health`
 - `GET /api/diagnostics`
-
-2. Drive sync:
-
 - `POST /api/drive/sync`
-
-3. Watch lifecycle:
-
 - `GET /api/drive/watch`
 - `POST /api/drive/watch/start`
 - `POST /api/drive/watch/renew`
 - `POST /api/drive/watch/stop`
-
-4. Webhook:
-
 - `POST /webhooks/drive`
 
-## Variáveis de ambiente
+## Troubleshooting rapido
 
-### Banco
-
-- `MYSQL_HOST`
-- `MYSQL_PORT`
-- `MYSQL_DATABASE`
-- `MYSQL_USER`
-- `MYSQL_PASSWORD`
-- `MYSQL_ROOT_PASSWORD`
-
-### API e fila
-
-- `API_MODE` (`batch`, `api`, `both`)
-- `API_HOST`
-- `API_PORT`
-- `REDIS_ENABLED` (`true` ou `false`)
-- `REDIS_URL`
-- `REDIS_QUEUE_NAME`
-
-### Google Drive
-
-- `DRIVE_FOLDER_ID`
-- `DRIVE_WEBHOOK_TOKEN`
-- `DRIVE_WEBHOOK_ADDRESS`
-- `DRIVE_TEMP_DIR`
-- `DRIVE_SYNC_MAX_FILES`
-- `DRIVE_WATCH_TTL_SECONDS`
-- `DRIVE_WATCH_AUTO_RENEW_ENABLED`
-- `DRIVE_WATCH_RENEW_BEFORE_SECONDS`
-- `DRIVE_WATCH_CHECK_INTERVAL_SECONDS`
-- `GOOGLE_SERVICE_ACCOUNT_KEY_JSON`
-- `GOOGLE_APPLICATION_CREDENTIALS`
-- `GOOGLE_DRIVE_SCOPES`
-
-## Fluxo operacional do Drive
-
-1. Configure credenciais da Service Account.
-2. Compartilhe a pasta alvo do Drive com a Service Account.
-3. Configure `DRIVE_FOLDER_ID` e `DRIVE_WEBHOOK_ADDRESS`.
-4. Inicie API e worker.
-5. Crie canal Watch:
-
-```bash
-curl -X POST http://localhost:3000/api/drive/watch/start
-```
-
-6. Quando eventos chegarem no webhook:
-
-- Com Redis ativo: eventos entram na fila e o worker processa.
-- Com Redis desativado: API faz fallback assíncrono direto.
-
-7. Renovação automática de canal:
-
-- Quando `DRIVE_WATCH_AUTO_RENEW_ENABLED=true`, a API monitora expiração e renova o canal antes do prazo configurado.
-
-8. Proteção anti-replay de webhook:
-
-- Eventos com o mesmo `X-Goog-Channel-Id` + `X-Goog-Message-Number` são ignorados para evitar reprocessamento duplicado.
-
-## Comandos úteis
-
-```bash
-# build
-npm run build
-
-# start batch
-npm start
-
-# start api
-npm run start:api
-
-# start worker
-npm run start:worker
-
-# subir stack
-docker compose up -d --build
-
-# status
-docker compose ps
-
-# contar registros
-docker exec formulas-mysql mysql -uformulas -pformulas formulas -e "SELECT COUNT(*) FROM formulas; SELECT COUNT(*) FROM formula_items;"
-```
-
-## Observações
-
-- O parser continua compatível com o fluxo batch original.
-- A deduplicação de Drive usa checkpoint persistente no MySQL (`drive_file_checkpoints`).
-- Estado do canal Watch é persistido em `drive_watch_channels`.
-- A execução não gera mais JSON em `Output/`; validação operacional deve ser feita por consultas SQL e logs.
+- API nao sobe: confira `docker compose logs formulas-app`.
+- Worker nao processa: confira `docker compose logs formulas-worker` e `REDIS_ENABLED=true`.
+- Watch nao recebe eventos: confira URL publica HTTPS e path `/webhooks/drive`.
+- Drive sem permissao: compartilhe a pasta com o `client_email` da service account.
+- Erro de credencial: valide caminho em `GOOGLE_APPLICATION_CREDENTIALS` e se o arquivo existe no container.
