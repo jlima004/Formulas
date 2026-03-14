@@ -38,7 +38,8 @@ mkdir -p \
 
 docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build app
 docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" build worker
-docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d app worker nginx
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d app worker
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d --force-recreate nginx
 
 docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" run --rm --entrypoint certbot certbot \
   certonly \
@@ -51,6 +52,7 @@ docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" run --rm --entrypoint c
 
 "$SCRIPT_DIR/render-nginx-conf.sh" "$DOMAIN" "https"
 
-docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d nginx certbot
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d --force-recreate nginx
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d certbot
 
 echo "Certificado emitido com sucesso para $DOMAIN."
