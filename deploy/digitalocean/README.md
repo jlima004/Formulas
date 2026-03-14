@@ -16,6 +16,7 @@ Este diretório contém os artefatos de produção para rodar a aplicação com 
 - Domínio apontando para o IP do Droplet.
 - Portas 80 e 443 abertas no firewall.
 - Credencial da service account disponível em `secrets/gcp-service-account.json`.
+- Para droplets com pouca memória, mantenha swap ativo (recomendado) para evitar falha de build no TypeScript.
 
 ## Runbook assistido (primeiro go-live)
 
@@ -151,6 +152,8 @@ sh deploy/digitalocean/scripts/deploy.sh seu-dominio.com deploy/digitalocean/.en
 ```
 
 Quando o certificado já existe, o script sobe diretamente em HTTPS.
+
+Observacao: os scripts de deploy e emissao de certificado fazem build de `app` e `worker` em serie (`--no-parallel`) para reduzir pico de memoria durante `npm run build` no Docker.
 
 ## 6) Atualizar codigo e redeploy (fluxo diario)
 
