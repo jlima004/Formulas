@@ -15,6 +15,7 @@ Output/
 
 # json credencial
 secrets/*
+root*
 
 # Deploy DigitalOcean (local env/certs)
 deploy/digitalocean/.env.prod
