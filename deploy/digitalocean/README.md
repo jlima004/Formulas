@@ -153,7 +153,7 @@ sh deploy/digitalocean/scripts/deploy.sh seu-dominio.com deploy/digitalocean/.en
 
 Quando o certificado já existe, o script sobe diretamente em HTTPS.
 
-Observacao: os scripts de deploy e emissao de certificado fazem build de `app` e `worker` em serie (`--no-parallel`) para reduzir pico de memoria durante `npm run build` no Docker.
+Observacao: os scripts de deploy e emissao de certificado fazem build de `app` e `worker` em serie (duas chamadas de `docker compose build`) para reduzir pico de memoria durante `npm run build` no Docker e manter compatibilidade com versoes antigas do Docker Compose.
 
 ## 6) Atualizar codigo e redeploy (fluxo diario)
 
